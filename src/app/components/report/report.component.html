@@ -1,23 +1,60 @@
-<h1>Datos</h1>
+<h2>Filtros: </h2>
 
-<h2>Lista de: </h2>
-        <table class="table table-hover">
-            <thead>
-                <tr class="text-center btn-primary">
-                    <td>
-                        <h3>#</h3>
-                    </td>
-                    <td>
-                        <h3>Título</h3>
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    *ngFor="let res of dataAll | paginate: { itemsPerPage: 10, currentPage: viewPage }; let i = index">
-                    <td class="ec-font-bold">{{ i+1 }}</td>
-                    <td class="text-center">{{ res.title }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <pagination-controls (pageChange)="viewPage = $event"></pagination-controls>
+<form [formGroup]="reportForm" class="rows">
+    <mat-form-field appearance="fill" class="col-12 col-sm-6">
+        <mat-label>Buscar</mat-label>
+        <input matInput type="search" formControlName="search">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="col-12 col-sm-6">
+        <mat-label>Datos por página</mat-label>
+        <mat-select formControlName="rows" [(value)]="selected">
+            <mat-option *ngFor="let item of optionSelect" value="{{ item }}">{{ item }} registros</mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+
+
+
+<h2>Lista de registros: </h2>
+<table class="table table-hover">
+    <thead>
+        <tr class="text-center bg-primary text-light">
+            <td>
+                <h3>#</h3>
+            </td>
+            <td>
+                <h3>Id usuario</h3>
+            </td>
+            <td>
+                <h3>id db</h3>
+            </td>
+            <td>
+                <h3>Título</h3>
+            </td>
+            <td>
+                <h3>Completado</h3>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr
+            *ngFor="let res of dataAll | paginate: { itemsPerPage: amountDataDisplayed, currentPage: viewPage }; let i = index">
+
+            <td class="ec-font-bold">{{ i+1 }}</td>
+            <td class="text-center">{{ res.userId }}</td>
+            <td class="text-center">{{ res.id }}</td>
+            <td class="text-center">{{ res.title }}</td>
+            <td class="text-center">{{ res.completed }}</td>
+        </tr>
+
+        <tr *ngIf="textSearch && dataAll.length == 0">
+            <td class="ec-font-bold">0</td>
+            <td class="text-center">No se encontro registros de títulos por {{ textSearch }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="text-center">
+    <pagination-controls (pageChange)="viewPage = $event"></pagination-controls>
+</div>
