@@ -1,0 +1,23 @@
+<h1>Datos</h1>
+
+<h2>Lista de: </h2>
+        <table class="table table-hover">
+            <thead>
+                <tr class="text-center btn-primary">
+                    <td>
+                        <h3>#</h3>
+                    </td>
+                    <td>
+                        <h3>Título</h3>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let res of dataAll | paginate: { itemsPerPage: 10, currentPage: viewPage }; let i = index">
+                    <td class="ec-font-bold">{{ i+1 }}</td>
+                    <td class="text-center">{{ res.title }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls (pageChange)="viewPage = $event"></pagination-controls>
